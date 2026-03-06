@@ -1,67 +1,97 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { fn } from 'storybook/test'
-
-import { Button } from './button'
+import type { Meta, StoryObj } from '@storybook/react'
+import React from 'react'
+import { Button } from '@/components/ui/button'
+import { ArrowRight, Loader2, Trash2 } from 'lucide-react'
 
 const meta = {
-  title: 'Form/Button',
+  title: 'UI/Button',
   component: Button,
-  parameters: {
-    layout: 'centered',
-  },
   tags: ['autodocs'],
-  args: { onClick: fn() },
+  parameters: { layout: 'centered' },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: [
+        'default',
+        'secondary',
+        'outline',
+        'ghost',
+        'destructive',
+        'link',
+      ],
+    },
+    size: {
+      control: 'select',
+      options: ['default', 'sm', 'lg', 'icon'],
+    },
+  },
 } satisfies Meta<typeof Button>
 
 export default meta
+
 type Story = StoryObj<typeof meta>
 
-export const Primary: Story = {
-  args: {
-    variant: 'primary',
-    children: 'Primary Button',
-  },
+export const Default: Story = {
+  args: { children: 'Get started', variant: 'default' },
 }
 
 export const Secondary: Story = {
-  args: {
-    variant: 'secondary',
-    children: 'Secondary Button',
-  },
+  args: { children: 'See features', variant: 'secondary' },
 }
 
-export const Danger: Story = {
-  args: {
-    variant: 'danger',
-    children: 'Delete Account',
-  },
+export const Outline: Story = {
+  args: { children: 'Learn more', variant: 'outline' },
+}
+
+export const Ghost: Story = {
+  args: { children: 'Sign in', variant: 'ghost' },
+}
+
+export const Destructive: Story = {
+  args: { children: 'Delete item', variant: 'destructive' },
+}
+
+export const Link: Story = {
+  args: { children: 'View docs', variant: 'link' },
 }
 
 export const Small: Story = {
-  args: {
-    size: 'small',
-    children: 'Small Button',
-  },
-}
-
-export const Medium: Story = {
-  args: {
-    size: 'medium',
-    children: 'Medium Button',
-  },
+  args: { children: 'Save', size: 'sm' },
 }
 
 export const Large: Story = {
-  args: {
-    size: 'large',
-    children: 'Large Button',
-  },
+  args: { children: 'Get started free', size: 'lg' },
+}
+
+export const WithIcon: Story = {
+  render: () =>
+    React.createElement(
+      Button,
+      {},
+      'Get started ',
+      React.createElement(ArrowRight, { size: 14 }),
+    ),
+}
+
+export const IconOnly: Story = {
+  render: () =>
+    React.createElement(
+      Button,
+      { size: 'icon', variant: 'outline' },
+      React.createElement(Trash2, { size: 16 }),
+    ),
+}
+
+export const Loading: Story = {
+  render: () =>
+    React.createElement(
+      Button,
+      { disabled: true },
+      React.createElement(Loader2, { size: 14, className: 'animate-spin' }),
+      'Saving…',
+    ),
 }
 
 export const Disabled: Story = {
-  args: {
-    variant: 'primary',
-    children: 'Disabled Button',
-    disabled: true,
-  },
+  render: () => React.createElement(Button, { disabled: true }, 'Unavailable'),
 }

@@ -10,12 +10,15 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutRouteImport } from './routes/about'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as PublicLayoutRouteImport } from './routes/_publicLayout'
+import { Route as AuthLayoutRouteImport } from './routes/_authLayout'
+import { Route as PublicLayoutIndexRouteImport } from './routes/_publicLayout/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoStoreRouteImport } from './routes/demo/store'
 import { Route as ApiTunnelRouteImport } from './routes/api/tunnel'
+import { Route as AuthLayoutDashboardRouteImport } from './routes/_authLayout/dashboard'
 import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
@@ -25,10 +28,18 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const PublicLayoutRoute = PublicLayoutRouteImport.update({
+  id: '/_publicLayout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLayoutRoute = AuthLayoutRouteImport.update({
+  id: '/_authLayout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicLayoutIndexRoute = PublicLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicLayoutRoute,
 } as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
   id: '/demo/tanstack-query',
@@ -55,6 +66,11 @@ const ApiTunnelRoute = ApiTunnelRouteImport.update({
   path: '/api/tunnel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthLayoutDashboardRoute = AuthLayoutDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
 const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
   id: '/demo/sentry/testing',
   path: '/demo/sentry/testing',
@@ -72,8 +88,9 @@ const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
+  '/dashboard': typeof AuthLayoutDashboardRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -84,8 +101,9 @@ export interface FileRoutesByFullPath {
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
+  '/dashboard': typeof AuthLayoutDashboardRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -97,13 +115,16 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_authLayout': typeof AuthLayoutRouteWithChildren
+  '/_publicLayout': typeof PublicLayoutRouteWithChildren
   '/about': typeof AboutRoute
+  '/_authLayout/dashboard': typeof AuthLayoutDashboardRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/storybook': typeof DemoStorybookRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/_publicLayout/': typeof PublicLayoutIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/demo/form/simple': typeof DemoFormSimpleRoute
   '/demo/sentry/testing': typeof DemoSentryTestingRoute
@@ -113,6 +134,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/dashboard'
     | '/api/tunnel'
     | '/demo/store'
     | '/demo/storybook'
@@ -125,6 +147,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/dashboard'
     | '/api/tunnel'
     | '/demo/store'
     | '/demo/storybook'
@@ -135,20 +158,24 @@ export interface FileRouteTypes {
     | '/demo/sentry/testing'
   id:
     | '__root__'
-    | '/'
+    | '/_authLayout'
+    | '/_publicLayout'
     | '/about'
+    | '/_authLayout/dashboard'
     | '/api/tunnel'
     | '/demo/store'
     | '/demo/storybook'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/_publicLayout/'
     | '/demo/form/address'
     | '/demo/form/simple'
     | '/demo/sentry/testing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
+  PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
   ApiTunnelRoute: typeof ApiTunnelRoute
   DemoStoreRoute: typeof DemoStoreRoute
@@ -169,12 +196,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_publicLayout': {
+      id: '/_publicLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authLayout': {
+      id: '/_authLayout'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_publicLayout/': {
+      id: '/_publicLayout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicLayoutIndexRouteImport
+      parentRoute: typeof PublicLayoutRoute
     }
     '/demo/tanstack-query': {
       id: '/demo/tanstack-query'
@@ -211,6 +252,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTunnelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authLayout/dashboard': {
+      id: '/_authLayout/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthLayoutDashboardRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
     '/demo/sentry/testing': {
       id: '/demo/sentry/testing'
       path: '/demo/sentry/testing'
@@ -235,8 +283,33 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthLayoutRouteChildren {
+  AuthLayoutDashboardRoute: typeof AuthLayoutDashboardRoute
+}
+
+const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
+  AuthLayoutDashboardRoute: AuthLayoutDashboardRoute,
+}
+
+const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
+  AuthLayoutRouteChildren,
+)
+
+interface PublicLayoutRouteChildren {
+  PublicLayoutIndexRoute: typeof PublicLayoutIndexRoute
+}
+
+const PublicLayoutRouteChildren: PublicLayoutRouteChildren = {
+  PublicLayoutIndexRoute: PublicLayoutIndexRoute,
+}
+
+const PublicLayoutRouteWithChildren = PublicLayoutRoute._addFileChildren(
+  PublicLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AuthLayoutRoute: AuthLayoutRouteWithChildren,
+  PublicLayoutRoute: PublicLayoutRouteWithChildren,
   AboutRoute: AboutRoute,
   ApiTunnelRoute: ApiTunnelRoute,
   DemoStoreRoute: DemoStoreRoute,

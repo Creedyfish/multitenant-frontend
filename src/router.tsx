@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/tanstackstart-react"
+import * as Sentry from '@sentry/tanstackstart-react'
 import { createRouter as createTanStackRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import { getContext } from './integrations/tanstack-query/root-provider'
@@ -16,7 +16,7 @@ export function getRouter() {
     Sentry.init({
       dsn: import.meta.env.VITE_SENTRY_DSN,
       sendDefaultPii: true,
-      tunnel: "/api/tunnel",
+      tunnel: '/api/tunnel',
       integrations: [
         Sentry.tanstackRouterBrowserTracingIntegration(router),
         Sentry.replayIntegration(),
