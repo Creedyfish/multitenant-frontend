@@ -84,17 +84,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
  * This is a common React pattern: wrap with provider, then consume in child.
  */
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  // Runs once on boot — attempts silent refresh to restore session.
-  // Sets isInitializing: false when done (success or failure).
   useInitAuth()
-
   const { isInitializing } = useAuth()
 
-  // Block all routing decisions until we know the auth state.
-  // Without this gate, protected routes flash then redirect — bad UX.
-  if (isInitializing) {
-    return <AppLoadingScreen />
-  }
+  if (isInitializing) return <AppLoadingScreen />
 
   return <>{children}</>
 }

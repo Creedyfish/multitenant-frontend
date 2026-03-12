@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as PublicLayoutRouteImport } from './routes/_publicLayout'
 import { Route as AuthLayoutRouteImport } from './routes/_authLayout'
@@ -23,6 +24,11 @@ import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.test
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
 import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -90,6 +96,7 @@ const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/_authLayout': typeof AuthLayoutRouteWithChildren
   '/_publicLayout': typeof PublicLayoutRouteWithChildren
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/_authLayout/dashboard': typeof AuthLayoutDashboardRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/login'
     | '/dashboard'
     | '/api/tunnel'
     | '/demo/store'
@@ -147,6 +157,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/login'
     | '/dashboard'
     | '/api/tunnel'
     | '/demo/store'
@@ -161,6 +172,7 @@ export interface FileRouteTypes {
     | '/_authLayout'
     | '/_publicLayout'
     | '/about'
+    | '/login'
     | '/_authLayout/dashboard'
     | '/api/tunnel'
     | '/demo/store'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
   PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
+  LoginRoute: typeof LoginRoute
   ApiTunnelRoute: typeof ApiTunnelRoute
   DemoStoreRoute: typeof DemoStoreRoute
   DemoStorybookRoute: typeof DemoStorybookRoute
@@ -189,6 +202,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -311,6 +331,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
   PublicLayoutRoute: PublicLayoutRouteWithChildren,
   AboutRoute: AboutRoute,
+  LoginRoute: LoginRoute,
   ApiTunnelRoute: ApiTunnelRoute,
   DemoStoreRoute: DemoStoreRoute,
   DemoStorybookRoute: DemoStorybookRoute,

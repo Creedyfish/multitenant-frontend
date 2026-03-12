@@ -37,13 +37,25 @@ import { setAccessToken, clearAccessToken } from '@/lib/token-store'
 interface LoginCredentials {
   email: string
   password: string
+  subdomain: string
 }
 
-interface LoginResponse {
-  access_token: string
-  refresh_token: string // We won't use this directly — backend sets the HttpOnly cookie
-  expires_in: number
+interface MeResponse {
+  id: string
+  email: string
+  full_name: string
+  role: UserRole
+  org_id: string
 }
+
+const mapMeResponse = (me: MeResponse): AuthUser => ({
+  id: me.id,
+  email: me.email,
+  name: me.full_name,
+  role: me.role,
+  orgId: me.org_id,
+  isActive: true,
+})
 
 // ─── useAuth ──────────────────────────────────────────────────────────────────
 
@@ -98,22 +110,27 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: async (credentials: LoginCredentials) => {
-      // Step 1: Exchange credentials for tokens
+      const formData = new URLSearchParams()
+      formData.append('username', credentials.email)
+      formData.append('password', credentials.password)
+
       const loginResponse = await apiClient
-        .url('/api/v1/auth/login')
-        .post(credentials)
-        .json<{ success: true; data: LoginResponse }>()
+        .url('/api/v1/auth/token')
+        .headers({
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-Tenant-ID': credentials.subdomain,
+        })
+        .post(formData.toString())
+        .json<{ access_token: string; token_type: string }>()
 
-      // Step 2: Store the access token in memory
-      setAccessToken(loginResponse.data.access_token)
+      setAccessToken(loginResponse.access_token)
 
-      // Step 3: Fetch the full user profile now that we're authenticated
       const meResponse = await apiClient
         .url('/api/v1/users/me')
         .get()
-        .json<{ success: true; data: AuthUser }>()
+        .json<MeResponse>()
 
-      return meResponse.data
+      return mapMeResponse(meResponse)
     },
 
     onSuccess: (user) => {
@@ -261,24 +278,21 @@ export const useInitAuth = () => {
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        // The HttpOnly refresh token cookie is sent automatically by the browser
         const response = await apiClient
           .url('/api/v1/auth/refresh')
           .post()
-          .json<{ success: true; data: { access_token: string } }>()
+          .json<{ access_token: string; token_type: string }>()
 
-        setAccessToken(response.data.access_token)
+        setAccessToken(response.access_token)
 
-        // Now fetch the full user profile
         const meResponse = await apiClient
           .url('/api/v1/users/me')
           .get()
-          .json<{ success: true; data: AuthUser }>()
+          .json<MeResponse>()
 
-        setAuthUser(meResponse.data)
-      } catch {
-        // No valid session — user needs to log in
-        // clearAuthUser also sets isInitializing: false
+        setAuthUser(mapMeResponse(meResponse))
+      } catch (err) {
+        console.error('❌ useInitAuth: caught error', err)
         clearAuthUser()
       }
     }

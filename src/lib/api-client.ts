@@ -123,7 +123,7 @@ const performSilentRefresh = async (): Promise<string | null> => {
     const response = await wretch(`${BASE_URL}/api/v1/auth/refresh`)
       .options({ credentials: 'include' }) // This sends the HttpOnly cookie
       .post()
-      .json<{ access_token: string }>()
+      .json<{ access_token: string; token_type: string }>()
 
     return response.access_token
   } catch {
