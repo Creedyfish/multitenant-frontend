@@ -19,6 +19,7 @@ import { Route as DemoTableRouteImport } from './routes/demo/table'
 import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
 import { Route as DemoStoreRouteImport } from './routes/demo/store'
 import { Route as ApiTunnelRouteImport } from './routes/api/tunnel'
+import { Route as AuthLayoutProductsRouteImport } from './routes/_authLayout/products'
 import { Route as AuthLayoutDashboardRouteImport } from './routes/_authLayout/dashboard'
 import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
@@ -72,6 +73,11 @@ const ApiTunnelRoute = ApiTunnelRouteImport.update({
   path: '/api/tunnel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthLayoutProductsRoute = AuthLayoutProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
 const AuthLayoutDashboardRoute = AuthLayoutDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
+  '/products': typeof AuthLayoutProductsRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
+  '/products': typeof AuthLayoutProductsRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/_authLayout/dashboard': typeof AuthLayoutDashboardRoute
+  '/_authLayout/products': typeof AuthLayoutProductsRoute
   '/api/tunnel': typeof ApiTunnelRoute
   '/demo/store': typeof DemoStoreRoute
   '/demo/storybook': typeof DemoStorybookRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/dashboard'
+    | '/products'
     | '/api/tunnel'
     | '/demo/store'
     | '/demo/storybook'
@@ -159,6 +169,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/dashboard'
+    | '/products'
     | '/api/tunnel'
     | '/demo/store'
     | '/demo/storybook'
@@ -174,6 +185,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/_authLayout/dashboard'
+    | '/_authLayout/products'
     | '/api/tunnel'
     | '/demo/store'
     | '/demo/storybook'
@@ -272,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTunnelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authLayout/products': {
+      id: '/_authLayout/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof AuthLayoutProductsRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
     '/_authLayout/dashboard': {
       id: '/_authLayout/dashboard'
       path: '/dashboard'
@@ -305,10 +324,12 @@ declare module '@tanstack/react-router' {
 
 interface AuthLayoutRouteChildren {
   AuthLayoutDashboardRoute: typeof AuthLayoutDashboardRoute
+  AuthLayoutProductsRoute: typeof AuthLayoutProductsRoute
 }
 
 const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
   AuthLayoutDashboardRoute: AuthLayoutDashboardRoute,
+  AuthLayoutProductsRoute: AuthLayoutProductsRoute,
 }
 
 const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
