@@ -76,12 +76,12 @@ export function CreateProductSheet({
             e.preventDefault()
             form.handleSubmit()
           }}
-          className="flex flex-col gap-5 p-4"
+          className="flex flex-col gap-5"
         >
           {/* SKU */}
           <form.Field name="sku">
             {(field) => (
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5 p-4">
                 <Label htmlFor="sku" className="text-slate-300">
                   SKU <span className="text-rose-400">*</span>
                 </Label>
@@ -105,7 +105,7 @@ export function CreateProductSheet({
           {/* Name */}
           <form.Field name="name">
             {(field) => (
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5 p-4">
                 <Label htmlFor="name" className="text-slate-300">
                   Name <span className="text-rose-400">*</span>
                 </Label>
@@ -127,7 +127,7 @@ export function CreateProductSheet({
           </form.Field>
 
           {/* Category + Min Stock row */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 p-4">
             <form.Field name="category">
               {(field) => (
                 <div className="flex flex-col gap-1.5">
@@ -177,7 +177,7 @@ export function CreateProductSheet({
           {/* Description */}
           <form.Field name="description">
             {(field) => (
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1.5 p-4">
                 <Label htmlFor="description" className="text-slate-300">
                   Description
                 </Label>

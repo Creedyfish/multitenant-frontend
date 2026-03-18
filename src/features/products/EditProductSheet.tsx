@@ -103,7 +103,7 @@ export function EditProductSheet({
           }}
           className="flex flex-1 flex-col gap-5"
         >
-          <div className="flex flex-1 flex-col gap-5 overflow-y-auto pr-1">
+          <div className="flex flex-1 flex-col gap-5 overflow-y-auto p-4 pr-1">
             {/* SKU */}
             <form.Field name="sku">
               {(field) => (
