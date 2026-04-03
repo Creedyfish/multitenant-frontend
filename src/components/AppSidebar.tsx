@@ -40,6 +40,12 @@ const NAV_ITEMS: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
+    label: 'Users',
+    icon: Users,
+    to: '/users',
+    roles: ['ADMIN'],
+  },
+  {
     label: 'Products',
     to: '/products',
     icon: Package,
@@ -49,6 +55,7 @@ const NAV_ITEMS: NavItem[] = [
     to: '/purchase-requests',
     icon: ShoppingCart,
   },
+
   {
     label: 'Stock Movements',
     to: '/stock-movements',
