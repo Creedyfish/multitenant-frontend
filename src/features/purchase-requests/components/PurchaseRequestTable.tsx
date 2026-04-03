@@ -8,33 +8,13 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import {
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  Trash2,
-  ExternalLink,
-} from 'lucide-react'
+import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
 import { PRStatusBadge } from './PRStatusBadge'
 import type { PurchaseRequestListItem } from '../types'
 
 interface PurchaseRequestsTableProps {
   data: PurchaseRequestListItem[]
-  canManage: boolean
-  onDelete: (id: string) => void
-  isDeleting: boolean
 }
 
 const col = createColumnHelper<PurchaseRequestListItem>()
@@ -47,12 +27,7 @@ function SortIcon({ sorted }: { sorted: false | 'asc' | 'desc' }) {
   return <ArrowDown className="ml-1.5 h-3.5 w-3.5 text-sky-400" />
 }
 
-export function PurchaseRequestsTable({
-  data,
-  canManage,
-  onDelete,
-  isDeleting,
-}: PurchaseRequestsTableProps) {
+export function PurchaseRequestsTable({ data }: PurchaseRequestsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'created_at', desc: true },
   ])
@@ -123,7 +98,6 @@ export function PurchaseRequestsTable({
       header: '',
       cell: ({ row }) => {
         const pr = row.original
-        const isDraft = pr.status === 'DRAFT'
         return (
           <div className="flex items-center justify-end gap-1">
             <Button
@@ -136,43 +110,6 @@ export function PurchaseRequestsTable({
                 <ExternalLink className="h-3.5 w-3.5" />
               </Link>
             </Button>
-
-            {canManage && isDraft && (
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-8 w-8 p-0 text-slate-400 hover:text-rose-400"
-                    disabled={isDeleting}
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent className="border-slate-800 bg-slate-900">
-                  <AlertDialogHeader>
-                    <AlertDialogTitle className="text-slate-50">
-                      Delete Purchase Request?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription className="text-slate-400">
-                      This draft will be permanently deleted. This action cannot
-                      be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel className="border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700">
-                      Cancel
-                    </AlertDialogCancel>
-                    <AlertDialogAction
-                      className="bg-rose-500 text-white hover:bg-rose-600"
-                      onClick={() => onDelete(pr.id)}
-                    >
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            )}
           </div>
         )
       },
