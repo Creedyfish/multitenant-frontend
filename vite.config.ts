@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import { sentryTanstackStart } from "@sentry/tanstackstart-react/vite";
+import { sentryTanstackStart } from '@sentry/tanstackstart-react/vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-
 import viteReact from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
@@ -19,8 +18,8 @@ const config = defineConfig({
       },
     }),
     sentryTanstackStart({
-      org: "ise-6d",
-      project: "multitenant-fe",
+      org: 'ise-6d',
+      project: 'multitenant-fe',
       authToken: process.env.SENTRY_AUTH_TOKEN,
     }),
   ],
