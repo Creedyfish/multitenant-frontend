@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useCreateProduct } from './queries'
+import { useCreateProduct } from '../queries'
 
 const createProductSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(50),

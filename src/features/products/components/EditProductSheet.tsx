@@ -11,8 +11,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useUpdateProduct } from './queries'
-import type { Product } from './types'
+import { useUpdateProduct } from '../queries'
+import type { Product } from '../types'
 
 const editProductSchema = z.object({
   sku: z.string().min(1, 'SKU is required').max(50),

@@ -10,7 +10,7 @@ import {
 import { useState } from 'react'
 import { ArrowUpDown, ArrowUp, ArrowDown, Pencil, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import type { Product } from './types'
+import type { Product } from '../types'
 
 const col = createColumnHelper<Product>()
 
