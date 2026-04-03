@@ -3,10 +3,7 @@ import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { createFileRoute } from '@tanstack/react-router'
-import {
-  usePurchaseRequests,
-  useDeletePR,
-} from '@/features/purchase-requests/queries'
+import { usePurchaseRequests } from '@/features/purchase-requests/queries'
 import { PurchaseRequestsTable } from '#/features/purchase-requests/components/PurchaseRequestTable'
 import { CreatePRSheet } from '@/features/purchase-requests/components/CreatePRSheet'
 import { usePermissions } from '@/features/auth/hooks'
@@ -71,8 +68,6 @@ function PurchaseRequestsPage() {
     limit: PAGE_SIZE,
     skip,
   })
-
-  const deletePR = useDeletePR()
 
   // Backend returns a plain array — derive pagination client-side
   const hasMore = items.length === PAGE_SIZE
@@ -145,12 +140,7 @@ function PurchaseRequestsPage() {
           </div>
         ) : (
           <>
-            <PurchaseRequestsTable
-              data={items}
-              canManage={canManage}
-              onDelete={(id) => deletePR.mutate(id)}
-              isDeleting={deletePR.isPending}
-            />
+            <PurchaseRequestsTable data={items} />
 
             {/* Pagination */}
             {(skip > 0 || hasMore) && (
