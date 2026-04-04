@@ -24,6 +24,7 @@ import { Route as AuthLayoutUsersRouteImport } from './routes/_authLayout/users'
 import { Route as AuthLayoutStockMovementsRouteImport } from './routes/_authLayout/stock-movements'
 import { Route as AuthLayoutProductsRouteImport } from './routes/_authLayout/products'
 import { Route as AuthLayoutDashboardRouteImport } from './routes/_authLayout/dashboard'
+import { Route as AuthLayoutAuditLogsRouteImport } from './routes/_authLayout/audit-logs'
 import { Route as AuthLayoutPurchaseRequestsIndexRouteImport } from './routes/_authLayout/purchase-requests/index'
 import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
 import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
@@ -104,6 +105,11 @@ const AuthLayoutDashboardRoute = AuthLayoutDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const AuthLayoutAuditLogsRoute = AuthLayoutAuditLogsRouteImport.update({
+  id: '/audit-logs',
+  path: '/audit-logs',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
 const AuthLayoutPurchaseRequestsIndexRoute =
   AuthLayoutPurchaseRequestsIndexRouteImport.update({
     id: '/purchase-requests/',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/products': typeof AuthLayoutProductsRoute
   '/stock-movements': typeof AuthLayoutStockMovementsRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/products': typeof AuthLayoutProductsRoute
   '/stock-movements': typeof AuthLayoutStockMovementsRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/_publicLayout': typeof PublicLayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/_authLayout/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/_authLayout/dashboard': typeof AuthLayoutDashboardRoute
   '/_authLayout/products': typeof AuthLayoutProductsRoute
   '/_authLayout/stock-movements': typeof AuthLayoutStockMovementsRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
+    | '/audit-logs'
     | '/dashboard'
     | '/products'
     | '/stock-movements'
@@ -221,6 +231,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
+    | '/audit-logs'
     | '/dashboard'
     | '/products'
     | '/stock-movements'
@@ -242,6 +253,7 @@ export interface FileRouteTypes {
     | '/_publicLayout'
     | '/about'
     | '/login'
+    | '/_authLayout/audit-logs'
     | '/_authLayout/dashboard'
     | '/_authLayout/products'
     | '/_authLayout/stock-movements'
@@ -382,6 +394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutDashboardRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_authLayout/audit-logs': {
+      id: '/_authLayout/audit-logs'
+      path: '/audit-logs'
+      fullPath: '/audit-logs'
+      preLoaderRoute: typeof AuthLayoutAuditLogsRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
     '/_authLayout/purchase-requests/': {
       id: '/_authLayout/purchase-requests/'
       path: '/purchase-requests'
@@ -421,6 +440,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthLayoutRouteChildren {
+  AuthLayoutAuditLogsRoute: typeof AuthLayoutAuditLogsRoute
   AuthLayoutDashboardRoute: typeof AuthLayoutDashboardRoute
   AuthLayoutProductsRoute: typeof AuthLayoutProductsRoute
   AuthLayoutStockMovementsRoute: typeof AuthLayoutStockMovementsRoute
@@ -431,6 +451,7 @@ interface AuthLayoutRouteChildren {
 }
 
 const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
+  AuthLayoutAuditLogsRoute: AuthLayoutAuditLogsRoute,
   AuthLayoutDashboardRoute: AuthLayoutDashboardRoute,
   AuthLayoutProductsRoute: AuthLayoutProductsRoute,
   AuthLayoutStockMovementsRoute: AuthLayoutStockMovementsRoute,

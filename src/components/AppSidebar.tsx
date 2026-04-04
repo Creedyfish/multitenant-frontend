@@ -40,12 +40,6 @@ const NAV_ITEMS: NavItem[] = [
     icon: LayoutDashboard,
   },
   {
-    label: 'Users',
-    icon: Users,
-    to: '/users',
-    roles: ['ADMIN'],
-  },
-  {
     label: 'Products',
     to: '/products',
     icon: Package,
@@ -55,7 +49,6 @@ const NAV_ITEMS: NavItem[] = [
     to: '/purchase-requests',
     icon: ShoppingCart,
   },
-
   {
     label: 'Stock Movements',
     to: '/stock-movements',
@@ -158,7 +151,7 @@ export function AppSidebar() {
       <aside
         className={cn(
           'flex h-screen shrink-0 flex-col border-r border-slate-800 bg-slate-900 transition-all duration-300 ease-in-out',
-          collapsed ? 'w-[60px]' : 'w-[220px]',
+          collapsed ? 'w-15' : 'w-55',
         )}
       >
         {/* Logo */}
