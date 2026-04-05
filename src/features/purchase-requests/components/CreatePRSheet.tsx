@@ -1,6 +1,6 @@
 import { useForm } from '@tanstack/react-form'
-import { useState, useRef, useEffect } from 'react'
-import { Plus, Trash2, Search, Loader2, Package } from 'lucide-react'
+import { useState } from 'react'
+import { Plus, Loader2 } from 'lucide-react'
 import {
   Sheet,
   SheetContent,
@@ -30,6 +30,8 @@ function emptyLineItem(): LineItemDraft {
     product_sku: '',
     quantity: 1,
     estimated_price: null,
+    supplier_id: '',
+    supplier_name: '',
   }
 }
 
@@ -73,6 +75,7 @@ export function CreatePRSheet({ open, onOpenChange }: CreatePRSheetProps) {
         product_id: item.product_id,
         quantity: item.quantity,
         estimated_price: item.estimated_price ?? undefined,
+        supplier_id: item.supplier_id ?? undefined,
       }))
 
       await createPR.mutateAsync({

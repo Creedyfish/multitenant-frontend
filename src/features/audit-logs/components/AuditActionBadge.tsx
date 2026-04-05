@@ -8,6 +8,8 @@ const ACTION_STYLES: Record<string, string> = {
   REJECT: 'border-rose-500/30 bg-rose-500/10 text-rose-400',
   SUBMIT: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
   ADJUST: 'border-violet-500/30 bg-violet-500/10 text-violet-400',
+  MARK_ORDERED: 'border-violet-500/30 bg-violet-500/10 text-violet-400',
+  RECEIVE: 'border-teal-500/30 bg-teal-500/10 text-teal-400',
 }
 
 const DEFAULT_STYLE = 'border-slate-600/50 bg-slate-800/50 text-slate-400'

@@ -45,6 +45,8 @@ function lineItemFromExisting(item: PRLineItem): LineItemDraft {
     product_sku: item.product_sku ?? '',
     quantity: item.quantity,
     estimated_price: item.estimated_price ? Number(item.estimated_price) : null,
+    supplier_id: item.supplier_id ?? '',
+    supplier_name: item.supplier_name ?? '',
   }
 }
 
@@ -105,6 +107,7 @@ export function EditPRSheet({ pr, open, onOpenChange }: Props) {
         ...(item.estimated_price != null
           ? { estimated_price: item.estimated_price }
           : {}),
+        supplier_id: item.supplier_id,
       }))
 
       await updatePR.mutateAsync({ id: pr.id, payload })
@@ -123,6 +126,8 @@ export function EditPRSheet({ pr, open, onOpenChange }: Props) {
         product_sku: '',
         quantity: 1,
         estimated_price: null,
+        supplier_id: '',
+        supplier_name: '',
       },
     ])
     setItemErrors((prev) => [...prev, {}])
