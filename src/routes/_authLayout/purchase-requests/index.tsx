@@ -57,8 +57,7 @@ function TableSkeleton() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 function PurchaseRequestsPage() {
-  const { isAdmin, isManager } = usePermissions()
-  const canManage = isAdmin || isManager
+  const { canCreatePR } = usePermissions()
 
   const [activeStatus, setActiveStatus] = useState<PRStatus | 'ALL'>('ALL')
   const [skip, setSkip] = useState(0)
@@ -97,7 +96,7 @@ function PurchaseRequestsPage() {
               Manage procurement approvals and supply orders
             </p>
           </div>
-          {canManage && (
+          {canCreatePR && (
             <Button
               className="bg-sky-500 text-white hover:bg-sky-400"
               onClick={() => setCreateOpen(true)}
