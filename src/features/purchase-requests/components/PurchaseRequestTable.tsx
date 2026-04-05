@@ -8,13 +8,20 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
-import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from 'lucide-react'
+import {
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  ExternalLink,
+  Pencil,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { PRStatusBadge } from './PRStatusBadge'
 import type { PurchaseRequestListItem } from '../types'
 
 interface PurchaseRequestsTableProps {
   data: PurchaseRequestListItem[]
+  onEdit?: (id: string) => void
 }
 
 const col = createColumnHelper<PurchaseRequestListItem>()
@@ -27,7 +34,10 @@ function SortIcon({ sorted }: { sorted: false | 'asc' | 'desc' }) {
   return <ArrowDown className="ml-1.5 h-3.5 w-3.5 text-sky-400" />
 }
 
-export function PurchaseRequestsTable({ data }: PurchaseRequestsTableProps) {
+export function PurchaseRequestsTable({
+  data,
+  onEdit,
+}: PurchaseRequestsTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'created_at', desc: true },
   ])
@@ -100,6 +110,16 @@ export function PurchaseRequestsTable({ data }: PurchaseRequestsTableProps) {
         const pr = row.original
         return (
           <div className="flex items-center justify-end gap-1">
+            {row.original.status === 'DRAFT' && onEdit && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-slate-400 hover:text-sky-400"
+                onClick={() => onEdit(row.original.id)}
+              >
+                <Pencil className="h-4 w-4" />
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="sm"

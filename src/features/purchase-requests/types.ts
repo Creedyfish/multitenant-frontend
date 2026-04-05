@@ -8,6 +8,7 @@ export type PRStatus =
   | 'APPROVED'
   | 'REJECTED'
   | 'ORDERED'
+  | 'RECEIVED'
 
 // ─── API response types ───────────────────────────────────────────────────────
 
@@ -18,8 +19,10 @@ export interface PRLineItem {
   product_name: string | null
   product_sku: string | null
   quantity: number
-  estimated_price: string | null // Decimal serializes as string from Python
+  estimated_price: string | null
   supplier_id: string | null
+  supplier_name: string | null
+  warehouse_id: string | null
 }
 
 export interface PurchaseRequest {
@@ -69,6 +72,8 @@ export const lineItemSchema = z.object({
     .number({ message: 'Enter a valid price' })
     .min(0, 'Price cannot be negative')
     .nullable(),
+  supplier_id: z.string().min(1, 'Select a supplier'),
+  supplier_name: z.string(),
 })
 
 export const createPRSchema = z.object({
@@ -102,4 +107,13 @@ export interface UpdatePRPayload {
 
 export interface RejectPRPayload {
   rejection_reason: string
+}
+
+export interface ReceivePRItemPayload {
+  item_id: string
+  warehouse_id: string
+}
+
+export interface ReceivePRPayload {
+  items: ReceivePRItemPayload[]
 }

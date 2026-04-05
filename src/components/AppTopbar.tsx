@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useRouterState } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 
 // Derive a readable page title from the current pathname
 function usePageTitle(): string {
@@ -43,6 +44,7 @@ export function AppTopbar() {
   const { mutate: logout, isPending: isLoggingOut } = useLogout() // ← wire it up
   const pageTitle = usePageTitle()
   const initials = getInitials(user?.name, user?.email)
+  const navigate = useNavigate()
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-800 bg-slate-900 px-6">
@@ -96,7 +98,7 @@ export function AppTopbar() {
             <DropdownMenuSeparator className="bg-slate-700" />
             <DropdownMenuItem
               className="cursor-pointer text-sm hover:bg-slate-800 hover:text-slate-50"
-              onClick={() => {}} // wire to /settings route when built
+              onClick={() => navigate({ to: '/settings' })}
             >
               Settings
             </DropdownMenuItem>

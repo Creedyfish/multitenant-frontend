@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '@/lib/api-client'
 import type {
-  PRPagedResponse,
   PurchaseRequest,
   PurchaseRequestListItem,
   CreatePRPayload,
   UpdatePRPayload,
   RejectPRPayload,
+  ReceivePRPayload,
   PRStatus,
 } from './types'
 
@@ -141,6 +141,37 @@ export function useRejectPR() {
     mutationFn: ({ id, payload }: { id: string; payload: RejectPRPayload }) =>
       apiClient
         .url(`/api/v1/purchase_requests/${id}/reject`)
+        .json(payload)
+        .post()
+        .json<PurchaseRequest>(),
+    onSuccess: (_data, { id }) => {
+      qc.invalidateQueries({ queryKey: prKeys.all })
+      qc.invalidateQueries({ queryKey: prKeys.detail(id) })
+    },
+  })
+}
+
+export function useMarkOrderedPR() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) =>
+      apiClient
+        .url(`/api/v1/purchase_requests/${id}/mark-ordered`)
+        .post()
+        .json<PurchaseRequest>(),
+    onSuccess: (_data, id) => {
+      qc.invalidateQueries({ queryKey: prKeys.all })
+      qc.invalidateQueries({ queryKey: prKeys.detail(id) })
+    },
+  })
+}
+
+export function useReceivePR() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: ReceivePRPayload }) =>
+      apiClient
+        .url(`/api/v1/purchase_requests/${id}/receive`)
         .json(payload)
         .post()
         .json<PurchaseRequest>(),

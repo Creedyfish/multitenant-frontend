@@ -22,6 +22,14 @@ const statusConfig: Record<PRStatus, { label: string; className: string }> = {
     label: 'Draft',
     className: 'border-slate-600/50 bg-slate-800/50 text-slate-400',
   },
+  ORDERED: {
+    label: 'Ordered',
+    className: 'border-violet-500/30 bg-violet-500/10 text-violet-400',
+  },
+  RECEIVED: {
+    label: 'Received',
+    className: 'border-teal-500/30 bg-teal-500/10 text-teal-400',
+  },
 }
 
 export function PRStatusBadge({ status }: PRStatusBadgeProps) {

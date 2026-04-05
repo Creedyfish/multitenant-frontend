@@ -27,32 +27,32 @@ export interface StockMovement {
 // ── Zod schemas (for forms) ───────────────────────────────────────────────────
 
 export const stockInSchema = z.object({
-  product_id: z.string().uuid('Select a product'),
-  warehouse_id: z.string().uuid('Select a warehouse'),
+  product_id: z.uuid('Select a product'),
+  warehouse_id: z.uuid('Select a warehouse'),
   quantity: z.coerce.number().int().min(1, 'Must be at least 1'),
   reference: z.string().max(100).optional(),
   notes: z.string().max(500).optional(),
 })
 
 export const stockOutSchema = z.object({
-  product_id: z.string().uuid('Select a product'),
-  warehouse_id: z.string().uuid('Select a warehouse'),
+  product_id: z.uuid('Select a product'),
+  warehouse_id: z.uuid('Select a warehouse'),
   quantity: z.coerce.number().int().min(1, 'Must be at least 1'),
   reference: z.string().max(100).optional(),
   notes: z.string().max(500).optional(),
 })
 
 export const stockTransferSchema = z.object({
-  product_id: z.string().uuid('Select a product'),
-  from_warehouse_id: z.string().uuid('Select source warehouse'),
-  to_warehouse_id: z.string().uuid('Select destination warehouse'),
+  product_id: z.uuid('Select a product'),
+  from_warehouse_id: z.uuid('Select source warehouse'),
+  to_warehouse_id: z.uuid('Select destination warehouse'),
   quantity: z.coerce.number().int().min(1, 'Must be at least 1'),
   notes: z.string().max(500).optional(),
 })
 
 export const stockAdjustSchema = z.object({
-  product_id: z.string().uuid('Select a product'),
-  warehouse_id: z.string().uuid('Select a warehouse'),
+  product_id: z.uuid('Select a product'),
+  warehouse_id: z.uuid('Select a warehouse'),
   quantity: z.coerce
     .number()
     .int()

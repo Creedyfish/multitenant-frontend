@@ -46,6 +46,15 @@ interface Warehouse {
   created_at: string
 }
 
+interface StockLevelDetail {
+  product_id: string
+  warehouse_id: string
+  current_stock: number
+  product_name: string
+  product_sku: string
+  min_stock_level: number
+}
+
 // ─── Query Keys ────────────────────────────────────────────────────────────────
 
 export const dashboardKeys = {
@@ -53,6 +62,7 @@ export const dashboardKeys = {
   productCount: () => [...dashboardKeys.all, 'product-count'] as const,
   pendingPrCount: () => [...dashboardKeys.all, 'pending-pr-count'] as const,
   warehouseCount: () => [...dashboardKeys.all, 'warehouse-count'] as const,
+  lowStockCount: () => [...dashboardKeys.all, 'low-stock-count'] as const,
 }
 
 // ─── Hooks ─────────────────────────────────────────────────────────────────────
@@ -99,5 +109,25 @@ export function useWarehouseCount() {
       apiClient.url('/api/v1/warehouses').get().json<Warehouse[]>(),
     select: (data) => data.length,
     staleTime: 30 * 60 * 1000, // 30 min — warehouses rarely change
+  })
+}
+
+/**
+ * Number of products currently below their minimum stock level (org-wide).
+ * Uses the enriched stock levels endpoint and filters client-side.
+ */
+export function useLowStockCount() {
+  return useQuery({
+    queryKey: dashboardKeys.lowStockCount(),
+    queryFn: () =>
+      apiClient
+        .url(
+          buildUrl('/api/v1/stock_movements/levels', { include_product: true }),
+        )
+        .get()
+        .json<StockLevelDetail[]>(),
+    select: (data) =>
+      data.filter((l) => l.current_stock < l.min_stock_level).length,
+    staleTime: 2 * 60 * 1000, // 2 min — stock levels change with movements
   })
 }

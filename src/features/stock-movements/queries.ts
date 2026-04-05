@@ -7,6 +7,7 @@ import type {
   StockMovement,
   StockOutPayload,
   StockTransferPayload,
+  StockLevel,
 } from './types'
 
 // ── Query keys ────────────────────────────────────────────────────────────────
@@ -15,6 +16,7 @@ export const stockMovementKeys = {
   all: ['stock-movements'] as const,
   ledger: (filters: LedgerFilters) =>
     ['stock-movements', 'ledger', filters] as const,
+  levels: ['stock-levels'] as const,
 }
 
 // ── Ledger (read) ─────────────────────────────────────────────────────────────
@@ -40,12 +42,23 @@ export function useStockLedger(filters: LedgerFilters) {
   })
 }
 
+export function useStockLevels() {
+  return useQuery({
+    queryKey: stockMovementKeys.levels,
+    queryFn: () =>
+      apiClient
+        .url('/stock_movements/levels?include_product=true')
+        .get()
+        .json<StockLevel[]>(),
+    staleTime: 30_000,
+  })
+}
+
 // ── Mutations ─────────────────────────────────────────────────────────────────
 
 function invalidateLedger(qc: ReturnType<typeof useQueryClient>) {
   qc.invalidateQueries({ queryKey: stockMovementKeys.all })
-  // Also invalidate stock levels used in warehouse stock sheet
-  qc.invalidateQueries({ queryKey: ['stock-levels'] })
+  qc.invalidateQueries({ queryKey: stockMovementKeys.levels })
 }
 
 export function useStockIn() {
