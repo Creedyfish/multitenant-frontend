@@ -21,7 +21,9 @@ import { Route as DemoStoreRouteImport } from './routes/demo/store'
 import { Route as ApiTunnelRouteImport } from './routes/api/tunnel'
 import { Route as AuthLayoutWarehousesRouteImport } from './routes/_authLayout/warehouses'
 import { Route as AuthLayoutUsersRouteImport } from './routes/_authLayout/users'
+import { Route as AuthLayoutSuppliersRouteImport } from './routes/_authLayout/suppliers'
 import { Route as AuthLayoutStockMovementsRouteImport } from './routes/_authLayout/stock-movements'
+import { Route as AuthLayoutSettingsRouteImport } from './routes/_authLayout/settings'
 import { Route as AuthLayoutProductsRouteImport } from './routes/_authLayout/products'
 import { Route as AuthLayoutDashboardRouteImport } from './routes/_authLayout/dashboard'
 import { Route as AuthLayoutAuditLogsRouteImport } from './routes/_authLayout/audit-logs'
@@ -89,12 +91,22 @@ const AuthLayoutUsersRoute = AuthLayoutUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const AuthLayoutSuppliersRoute = AuthLayoutSuppliersRouteImport.update({
+  id: '/suppliers',
+  path: '/suppliers',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
 const AuthLayoutStockMovementsRoute =
   AuthLayoutStockMovementsRouteImport.update({
     id: '/stock-movements',
     path: '/stock-movements',
     getParentRoute: () => AuthLayoutRoute,
   } as any)
+const AuthLayoutSettingsRoute = AuthLayoutSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthLayoutRoute,
+} as any)
 const AuthLayoutProductsRoute = AuthLayoutProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -145,7 +157,9 @@ export interface FileRoutesByFullPath {
   '/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/products': typeof AuthLayoutProductsRoute
+  '/settings': typeof AuthLayoutSettingsRoute
   '/stock-movements': typeof AuthLayoutStockMovementsRoute
+  '/suppliers': typeof AuthLayoutSuppliersRoute
   '/users': typeof AuthLayoutUsersRoute
   '/warehouses': typeof AuthLayoutWarehousesRoute
   '/api/tunnel': typeof ApiTunnelRoute
@@ -166,7 +180,9 @@ export interface FileRoutesByTo {
   '/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/products': typeof AuthLayoutProductsRoute
+  '/settings': typeof AuthLayoutSettingsRoute
   '/stock-movements': typeof AuthLayoutStockMovementsRoute
+  '/suppliers': typeof AuthLayoutSuppliersRoute
   '/users': typeof AuthLayoutUsersRoute
   '/warehouses': typeof AuthLayoutWarehousesRoute
   '/api/tunnel': typeof ApiTunnelRoute
@@ -189,7 +205,9 @@ export interface FileRoutesById {
   '/_authLayout/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/_authLayout/dashboard': typeof AuthLayoutDashboardRoute
   '/_authLayout/products': typeof AuthLayoutProductsRoute
+  '/_authLayout/settings': typeof AuthLayoutSettingsRoute
   '/_authLayout/stock-movements': typeof AuthLayoutStockMovementsRoute
+  '/_authLayout/suppliers': typeof AuthLayoutSuppliersRoute
   '/_authLayout/users': typeof AuthLayoutUsersRoute
   '/_authLayout/warehouses': typeof AuthLayoutWarehousesRoute
   '/api/tunnel': typeof ApiTunnelRoute
@@ -213,7 +231,9 @@ export interface FileRouteTypes {
     | '/audit-logs'
     | '/dashboard'
     | '/products'
+    | '/settings'
     | '/stock-movements'
+    | '/suppliers'
     | '/users'
     | '/warehouses'
     | '/api/tunnel'
@@ -234,7 +254,9 @@ export interface FileRouteTypes {
     | '/audit-logs'
     | '/dashboard'
     | '/products'
+    | '/settings'
     | '/stock-movements'
+    | '/suppliers'
     | '/users'
     | '/warehouses'
     | '/api/tunnel'
@@ -256,7 +278,9 @@ export interface FileRouteTypes {
     | '/_authLayout/audit-logs'
     | '/_authLayout/dashboard'
     | '/_authLayout/products'
+    | '/_authLayout/settings'
     | '/_authLayout/stock-movements'
+    | '/_authLayout/suppliers'
     | '/_authLayout/users'
     | '/_authLayout/warehouses'
     | '/api/tunnel'
@@ -373,11 +397,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutUsersRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_authLayout/suppliers': {
+      id: '/_authLayout/suppliers'
+      path: '/suppliers'
+      fullPath: '/suppliers'
+      preLoaderRoute: typeof AuthLayoutSuppliersRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
     '/_authLayout/stock-movements': {
       id: '/_authLayout/stock-movements'
       path: '/stock-movements'
       fullPath: '/stock-movements'
       preLoaderRoute: typeof AuthLayoutStockMovementsRouteImport
+      parentRoute: typeof AuthLayoutRoute
+    }
+    '/_authLayout/settings': {
+      id: '/_authLayout/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthLayoutSettingsRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
     '/_authLayout/products': {
@@ -443,7 +481,9 @@ interface AuthLayoutRouteChildren {
   AuthLayoutAuditLogsRoute: typeof AuthLayoutAuditLogsRoute
   AuthLayoutDashboardRoute: typeof AuthLayoutDashboardRoute
   AuthLayoutProductsRoute: typeof AuthLayoutProductsRoute
+  AuthLayoutSettingsRoute: typeof AuthLayoutSettingsRoute
   AuthLayoutStockMovementsRoute: typeof AuthLayoutStockMovementsRoute
+  AuthLayoutSuppliersRoute: typeof AuthLayoutSuppliersRoute
   AuthLayoutUsersRoute: typeof AuthLayoutUsersRoute
   AuthLayoutWarehousesRoute: typeof AuthLayoutWarehousesRoute
   AuthLayoutPurchaseRequestsIdRoute: typeof AuthLayoutPurchaseRequestsIdRoute
@@ -454,7 +494,9 @@ const AuthLayoutRouteChildren: AuthLayoutRouteChildren = {
   AuthLayoutAuditLogsRoute: AuthLayoutAuditLogsRoute,
   AuthLayoutDashboardRoute: AuthLayoutDashboardRoute,
   AuthLayoutProductsRoute: AuthLayoutProductsRoute,
+  AuthLayoutSettingsRoute: AuthLayoutSettingsRoute,
   AuthLayoutStockMovementsRoute: AuthLayoutStockMovementsRoute,
+  AuthLayoutSuppliersRoute: AuthLayoutSuppliersRoute,
   AuthLayoutUsersRoute: AuthLayoutUsersRoute,
   AuthLayoutWarehousesRoute: AuthLayoutWarehousesRoute,
   AuthLayoutPurchaseRequestsIdRoute: AuthLayoutPurchaseRequestsIdRoute,
