@@ -8,6 +8,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { MapPin, Package, AlertTriangle } from 'lucide-react'
 import type { Warehouse } from '../types'
+import { useNavigate } from '@tanstack/react-router'
 import { useWarehouseStock } from '../queries'
 
 // ── Stock badge ───────────────────────────────────────────────────────────────
@@ -54,6 +55,8 @@ export function WarehouseStockSheet({
   open,
   onOpenChange,
 }: WarehouseStockSheetProps) {
+  const navigate = useNavigate()
+
   const { data: rows = [], isLoading } = useWarehouseStock(
     warehouse?.id ?? null,
   )
@@ -139,11 +142,18 @@ export function WarehouseStockSheet({
               )}
 
               {sorted.map((row) => (
-                <div
+                <button
                   key={row.product_id}
-                  className="flex items-center justify-between gap-3 rounded-lg border border-slate-800 bg-slate-950 px-4 py-3 transition-colors hover:border-slate-700"
+                  onClick={() => {
+                    onOpenChange(false)
+                    navigate({
+                      to: '/products',
+                      search: { q: row.product_name },
+                    })
+                  }}
+                  className="flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg border border-slate-800 bg-slate-950 px-4 py-3 transition-colors hover:border-slate-700 hover:bg-slate-900"
                 >
-                  <div className="flex min-w-0 flex-col gap-0.5">
+                  <div className="flex min-w-0 flex-col gap-0.5 text-left">
                     <span className="truncate text-sm font-medium text-slate-100">
                       {row.product_name}
                     </span>
@@ -155,7 +165,7 @@ export function WarehouseStockSheet({
                     qty={row.current_stock}
                     minStock={row.min_stock_level}
                   />
-                </div>
+                </button>
               ))}
             </>
           )}

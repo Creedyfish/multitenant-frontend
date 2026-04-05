@@ -8,6 +8,7 @@ import type { Product } from '@/features/products/types'
 import type { LineItemDraft, LineItemErrors } from '../types'
 import { useSuppliers } from '#/features/suppliers/queries'
 import type { Supplier } from '#/features/suppliers/types'
+import { useStockLevels } from '@/features/stock-movements/queries'
 // ─── Product Combobox ─────────────────────────────────────────────────────────
 
 interface ProductComboboxProps {
@@ -33,6 +34,18 @@ export function ProductCombobox({
     limit: 20,
     offset: 0,
   })
+
+  const { data: stockLevels = [] } = useStockLevels()
+
+  const stockByProduct = stockLevels.reduce<
+    Record<string, { stock: number; min: number }>
+  >((acc, s) => {
+    if (!acc[s.product_id]) {
+      acc[s.product_id] = { stock: 0, min: s.min_stock_level }
+    }
+    acc[s.product_id].stock += s.current_stock
+    return acc
+  }, {})
 
   const products = data?.items ?? []
 
@@ -116,9 +129,27 @@ export function ProductCombobox({
                 >
                   <Package className="h-3.5 w-3.5 shrink-0 text-slate-500" />
                   <span className="truncate text-slate-200">{p.name}</span>
-                  <span className="ml-auto shrink-0 font-mono text-xs text-slate-500">
-                    {p.sku}
-                  </span>
+                  <div className="ml-auto flex shrink-0 items-center gap-2">
+                    <span className="font-mono text-xs text-slate-500">
+                      {p.sku}
+                    </span>
+                    {(() => {
+                      const level = stockByProduct[p.id]
+                      const stock = level?.stock ?? 0
+                      const min = level?.min ?? 0
+                      const color =
+                        stock === 0
+                          ? 'text-rose-400'
+                          : stock < min
+                            ? 'text-amber-400'
+                            : 'text-emerald-400'
+                      return (
+                        <span className={`font-mono text-xs ${color}`}>
+                          {stock} in stock
+                        </span>
+                      )
+                    })()}
+                  </div>
                 </li>
               ))
             )}
