@@ -14,10 +14,6 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as PublicLayoutRouteImport } from './routes/_publicLayout'
 import { Route as AuthLayoutRouteImport } from './routes/_authLayout'
 import { Route as PublicLayoutIndexRouteImport } from './routes/_publicLayout/index'
-import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
-import { Route as DemoTableRouteImport } from './routes/demo/table'
-import { Route as DemoStorybookRouteImport } from './routes/demo/storybook'
-import { Route as DemoStoreRouteImport } from './routes/demo/store'
 import { Route as ApiTunnelRouteImport } from './routes/api/tunnel'
 import { Route as AuthLayoutWarehousesRouteImport } from './routes/_authLayout/warehouses'
 import { Route as AuthLayoutUsersRouteImport } from './routes/_authLayout/users'
@@ -28,9 +24,6 @@ import { Route as AuthLayoutProductsRouteImport } from './routes/_authLayout/pro
 import { Route as AuthLayoutDashboardRouteImport } from './routes/_authLayout/dashboard'
 import { Route as AuthLayoutAuditLogsRouteImport } from './routes/_authLayout/audit-logs'
 import { Route as AuthLayoutPurchaseRequestsIndexRouteImport } from './routes/_authLayout/purchase-requests/index'
-import { Route as DemoSentryTestingRouteImport } from './routes/demo/sentry.testing'
-import { Route as DemoFormSimpleRouteImport } from './routes/demo/form.simple'
-import { Route as DemoFormAddressRouteImport } from './routes/demo/form.address'
 import { Route as AuthLayoutPurchaseRequestsIdRouteImport } from './routes/_authLayout/purchase-requests/$id'
 
 const LoginRoute = LoginRouteImport.update({
@@ -55,26 +48,6 @@ const PublicLayoutIndexRoute = PublicLayoutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PublicLayoutRoute,
-} as any)
-const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoTableRoute = DemoTableRouteImport.update({
-  id: '/demo/table',
-  path: '/demo/table',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStorybookRoute = DemoStorybookRouteImport.update({
-  id: '/demo/storybook',
-  path: '/demo/storybook',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoStoreRoute = DemoStoreRouteImport.update({
-  id: '/demo/store',
-  path: '/demo/store',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiTunnelRoute = ApiTunnelRouteImport.update({
   id: '/api/tunnel',
@@ -128,21 +101,6 @@ const AuthLayoutPurchaseRequestsIndexRoute =
     path: '/purchase-requests/',
     getParentRoute: () => AuthLayoutRoute,
   } as any)
-const DemoSentryTestingRoute = DemoSentryTestingRouteImport.update({
-  id: '/demo/sentry/testing',
-  path: '/demo/sentry/testing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoFormSimpleRoute = DemoFormSimpleRouteImport.update({
-  id: '/demo/form/simple',
-  path: '/demo/form/simple',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
-  id: '/demo/form/address',
-  path: '/demo/form/address',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthLayoutPurchaseRequestsIdRoute =
   AuthLayoutPurchaseRequestsIdRouteImport.update({
     id: '/purchase-requests/$id',
@@ -163,14 +121,7 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthLayoutUsersRoute
   '/warehouses': typeof AuthLayoutWarehousesRoute
   '/api/tunnel': typeof ApiTunnelRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/purchase-requests/$id': typeof AuthLayoutPurchaseRequestsIdRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
   '/purchase-requests/': typeof AuthLayoutPurchaseRequestsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -186,14 +137,7 @@ export interface FileRoutesByTo {
   '/users': typeof AuthLayoutUsersRoute
   '/warehouses': typeof AuthLayoutWarehousesRoute
   '/api/tunnel': typeof ApiTunnelRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/purchase-requests/$id': typeof AuthLayoutPurchaseRequestsIdRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
   '/purchase-requests': typeof AuthLayoutPurchaseRequestsIndexRoute
 }
 export interface FileRoutesById {
@@ -211,15 +155,8 @@ export interface FileRoutesById {
   '/_authLayout/users': typeof AuthLayoutUsersRoute
   '/_authLayout/warehouses': typeof AuthLayoutWarehousesRoute
   '/api/tunnel': typeof ApiTunnelRoute
-  '/demo/store': typeof DemoStoreRoute
-  '/demo/storybook': typeof DemoStorybookRoute
-  '/demo/table': typeof DemoTableRoute
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/_publicLayout/': typeof PublicLayoutIndexRoute
   '/_authLayout/purchase-requests/$id': typeof AuthLayoutPurchaseRequestsIdRoute
-  '/demo/form/address': typeof DemoFormAddressRoute
-  '/demo/form/simple': typeof DemoFormSimpleRoute
-  '/demo/sentry/testing': typeof DemoSentryTestingRoute
   '/_authLayout/purchase-requests/': typeof AuthLayoutPurchaseRequestsIndexRoute
 }
 export interface FileRouteTypes {
@@ -237,14 +174,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/warehouses'
     | '/api/tunnel'
-    | '/demo/store'
-    | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/purchase-requests/$id'
-    | '/demo/form/address'
-    | '/demo/form/simple'
-    | '/demo/sentry/testing'
     | '/purchase-requests/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -260,14 +190,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/warehouses'
     | '/api/tunnel'
-    | '/demo/store'
-    | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/purchase-requests/$id'
-    | '/demo/form/address'
-    | '/demo/form/simple'
-    | '/demo/sentry/testing'
     | '/purchase-requests'
   id:
     | '__root__'
@@ -284,15 +207,8 @@ export interface FileRouteTypes {
     | '/_authLayout/users'
     | '/_authLayout/warehouses'
     | '/api/tunnel'
-    | '/demo/store'
-    | '/demo/storybook'
-    | '/demo/table'
-    | '/demo/tanstack-query'
     | '/_publicLayout/'
     | '/_authLayout/purchase-requests/$id'
-    | '/demo/form/address'
-    | '/demo/form/simple'
-    | '/demo/sentry/testing'
     | '/_authLayout/purchase-requests/'
   fileRoutesById: FileRoutesById
 }
@@ -302,13 +218,6 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
   ApiTunnelRoute: typeof ApiTunnelRoute
-  DemoStoreRoute: typeof DemoStoreRoute
-  DemoStorybookRoute: typeof DemoStorybookRoute
-  DemoTableRoute: typeof DemoTableRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
-  DemoFormAddressRoute: typeof DemoFormAddressRoute
-  DemoFormSimpleRoute: typeof DemoFormSimpleRoute
-  DemoSentryTestingRoute: typeof DemoSentryTestingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -347,34 +256,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PublicLayoutIndexRouteImport
       parentRoute: typeof PublicLayoutRoute
-    }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/table': {
-      id: '/demo/table'
-      path: '/demo/table'
-      fullPath: '/demo/table'
-      preLoaderRoute: typeof DemoTableRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/storybook': {
-      id: '/demo/storybook'
-      path: '/demo/storybook'
-      fullPath: '/demo/storybook'
-      preLoaderRoute: typeof DemoStorybookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/store': {
-      id: '/demo/store'
-      path: '/demo/store'
-      fullPath: '/demo/store'
-      preLoaderRoute: typeof DemoStoreRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/api/tunnel': {
       id: '/api/tunnel'
@@ -446,27 +327,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutPurchaseRequestsIndexRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
-    '/demo/sentry/testing': {
-      id: '/demo/sentry/testing'
-      path: '/demo/sentry/testing'
-      fullPath: '/demo/sentry/testing'
-      preLoaderRoute: typeof DemoSentryTestingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/form/simple': {
-      id: '/demo/form/simple'
-      path: '/demo/form/simple'
-      fullPath: '/demo/form/simple'
-      preLoaderRoute: typeof DemoFormSimpleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/demo/form/address': {
-      id: '/demo/form/address'
-      path: '/demo/form/address'
-      fullPath: '/demo/form/address'
-      preLoaderRoute: typeof DemoFormAddressRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authLayout/purchase-requests/$id': {
       id: '/_authLayout/purchase-requests/$id'
       path: '/purchase-requests/$id'
@@ -525,13 +385,6 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
   ApiTunnelRoute: ApiTunnelRoute,
-  DemoStoreRoute: DemoStoreRoute,
-  DemoStorybookRoute: DemoStorybookRoute,
-  DemoTableRoute: DemoTableRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
-  DemoFormAddressRoute: DemoFormAddressRoute,
-  DemoFormSimpleRoute: DemoFormSimpleRoute,
-  DemoSentryTestingRoute: DemoSentryTestingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
