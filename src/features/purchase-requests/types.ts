@@ -8,6 +8,7 @@ export type PRStatus =
   | 'APPROVED'
   | 'REJECTED'
   | 'ORDERED'
+  | 'RECEIVED'
 
 // ─── API response types ───────────────────────────────────────────────────────
 
@@ -20,6 +21,7 @@ export interface PRLineItem {
   quantity: number
   estimated_price: string | null // Decimal serializes as string from Python
   supplier_id: string | null
+  warehouse_id: string | null
 }
 
 export interface PurchaseRequest {
@@ -102,4 +104,13 @@ export interface UpdatePRPayload {
 
 export interface RejectPRPayload {
   rejection_reason: string
+}
+
+export interface ReceivePRItemPayload {
+  item_id: string
+  warehouse_id: string
+}
+
+export interface ReceivePRPayload {
+  items: ReceivePRItemPayload[]
 }

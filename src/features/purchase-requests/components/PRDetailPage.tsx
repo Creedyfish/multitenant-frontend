@@ -12,6 +12,8 @@ import {
   Clock,
   AlertTriangle,
   Hash,
+  ShoppingCart,
+  PackageCheck,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -23,9 +25,11 @@ import {
   useSubmitPR,
   useApprovePR,
   useRejectPR,
+  useMarkOrderedPR,
 } from '../queries'
 import { usePermissions } from '@/features/auth/hooks'
 import type { PRLineItem } from '../types'
+import { ReceivePRSheet } from './ReceivePRSheet'
 
 interface PRDetailPageProps {
   id: string
@@ -176,12 +180,12 @@ export function PRDetailPage({ id }: PRDetailPageProps) {
   const canApprove = isAdmin || isManager
 
   const [rejectOpen, setRejectOpen] = useState(false)
-
+  const [receiveOpen, setReceiveOpen] = useState(false)
   const { data: pr, isLoading, isError } = usePurchaseRequest(id)
   const submitPR = useSubmitPR()
   const approvePR = useApprovePR()
   const rejectPR = useRejectPR()
-
+  const markOrdered = useMarkOrderedPR()
   if (isLoading) return <PRDetailSkeleton />
 
   if (isError || !pr) {
@@ -206,8 +210,13 @@ export function PRDetailPage({ id }: PRDetailPageProps) {
 
   const isDraft = pr.status === 'DRAFT'
   const isSubmitted = pr.status === 'SUBMITTED'
+  const isApproved = pr.status === 'APPROVED'
+  const isOrdered = pr.status === 'ORDERED'
   const anyPending =
-    submitPR.isPending || approvePR.isPending || rejectPR.isPending
+    submitPR.isPending ||
+    approvePR.isPending ||
+    rejectPR.isPending ||
+    markOrdered.isPending
 
   async function handleSubmit() {
     await submitPR.mutateAsync(id)
@@ -276,6 +285,33 @@ export function PRDetailPage({ id }: PRDetailPageProps) {
                 Approve
               </Button>
             </>
+          )}
+          {isApproved && canApprove && (
+            <Button
+              variant="ghost"
+              className="border border-amber-500/30 bg-amber-500/10 text-amber-400 hover:bg-amber-500/20"
+              onClick={() => markOrdered.mutateAsync(id)}
+              disabled={anyPending}
+            >
+              {markOrdered.isPending ? (
+                <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+              ) : (
+                <ShoppingCart className="mr-2 h-3.5 w-3.5" />
+              )}
+              Mark as Ordered
+            </Button>
+          )}
+
+          {isOrdered && canApprove && (
+            <Button
+              variant="ghost"
+              className="border border-teal-500/30 bg-teal-500/10 text-teal-400 hover:bg-teal-500/20"
+              onClick={() => setReceiveOpen(true)}
+              disabled={anyPending}
+            >
+              <PackageCheck className="mr-2 h-3.5 w-3.5" />
+              Mark as Received
+            </Button>
           )}
         </div>
       </div>
@@ -387,6 +423,12 @@ export function PRDetailPage({ id }: PRDetailPageProps) {
       </div>
 
       <LineItemsTable items={pr.items} />
+
+      <ReceivePRSheet
+        pr={pr}
+        open={receiveOpen}
+        onOpenChange={setReceiveOpen}
+      />
 
       <RejectDialog
         open={rejectOpen}

@@ -3,10 +3,14 @@ import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { createFileRoute } from '@tanstack/react-router'
-import { usePurchaseRequests } from '@/features/purchase-requests/queries'
+import {
+  usePurchaseRequests,
+  usePurchaseRequest,
+} from '@/features/purchase-requests/queries'
 import { PurchaseRequestsTable } from '#/features/purchase-requests/components/PurchaseRequestTable'
 import { CreatePRSheet } from '@/features/purchase-requests/components/CreatePRSheet'
 import { usePermissions } from '@/features/auth/hooks'
+import { EditPRSheet } from '@/features/purchase-requests/components/EditPRSheet'
 import type { PRStatus } from '@/features/purchase-requests/types'
 
 export const Route = createFileRoute('/_authLayout/purchase-requests/')({
@@ -22,6 +26,7 @@ const STATUS_TABS: { label: string; value: PRStatus | 'ALL' }[] = [
   { label: 'Approved', value: 'APPROVED' },
   { label: 'Rejected', value: 'REJECTED' },
   { label: 'Ordered', value: 'ORDERED' },
+  { label: 'Received', value: 'RECEIVED' },
 ]
 
 const PAGE_SIZE = 20
@@ -58,7 +63,8 @@ function PurchaseRequestsPage() {
   const [activeStatus, setActiveStatus] = useState<PRStatus | 'ALL'>('ALL')
   const [skip, setSkip] = useState(0)
   const [createOpen, setCreateOpen] = useState(false)
-
+  const [editId, setEditId] = useState<string | null>(null)
+  const { data: editPR } = usePurchaseRequest(editId ?? '')
   const {
     data: items = [],
     isLoading,
@@ -140,7 +146,10 @@ function PurchaseRequestsPage() {
           </div>
         ) : (
           <>
-            <PurchaseRequestsTable data={items} />
+            <PurchaseRequestsTable
+              data={items}
+              onEdit={(id) => setEditId(id)}
+            />
 
             {/* Pagination */}
             {(skip > 0 || hasMore) && (
@@ -171,7 +180,13 @@ function PurchaseRequestsPage() {
           </>
         )}
       </div>
-
+      <EditPRSheet
+        pr={editPR ?? null}
+        open={!!editId}
+        onOpenChange={(open) => {
+          if (!open) setEditId(null)
+        }}
+      />
       <CreatePRSheet open={createOpen} onOpenChange={setCreateOpen} />
     </div>
   )
