@@ -1,6 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { apiClient } from '@/lib/api-client'
-import type { User, CreateUserPayload, UpdateUserPayload } from './types'
+import type {
+  User,
+  CreateUserPayload,
+  UpdateUserPayload,
+  RegisterPayload,
+  RegisterResponse,
+} from './types'
 
 const KEYS = {
   all: ['users'] as const,
@@ -37,5 +43,16 @@ export function useDeleteUser() {
   return useMutation({
     mutationFn: (id: string) => apiClient.url(`/users/${id}`).delete().res(),
     onSuccess: () => qc.invalidateQueries({ queryKey: KEYS.all }),
+  })
+}
+
+export function useRegister() {
+  return useMutation({
+    mutationFn: ({ confirm_password, ...payload }: RegisterPayload) =>
+      apiClient
+        .url('/users/register')
+        .json(payload)
+        .post()
+        .json<RegisterResponse>(),
   })
 }

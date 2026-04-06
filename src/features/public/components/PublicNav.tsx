@@ -4,7 +4,7 @@ import { useAuth } from '@/features/auth/hooks'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Separator } from '@/components/ui/separator'
-import { Menu, Boxes } from 'lucide-react'
+import { Boxes, Menu } from 'lucide-react'
 
 const NAV_LINKS = [
   { label: 'Features', href: '#features' },
@@ -19,7 +19,7 @@ export function PublicNav() {
     <nav className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between border-b border-slate-800 bg-slate-950/80 px-6 py-4 backdrop-blur-md">
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2 no-underline">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/15">
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/15">
           <Boxes className="h-4 w-4 text-sky-400" />
         </div>
         <span className="text-sm font-bold tracking-tight text-slate-100">
@@ -65,7 +65,7 @@ export function PublicNav() {
               size="sm"
               className="rounded-full bg-sky-500 text-white hover:bg-sky-400"
             >
-              <Link to="/login">Get started</Link>
+              <Link to="/register">Get started</Link>
             </Button>
           </>
         )}
@@ -101,8 +101,8 @@ export function PublicNav() {
           >
             {/* Sheet logo */}
             <div className="flex items-center gap-2 px-6 pt-2 pb-5">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500">
-                <span className="text-xs font-black text-white">LC</span>
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/15">
+                <Boxes className="h-4 w-4 text-sky-400" />
               </div>
               <span className="text-sm font-bold tracking-tight text-slate-100">
                 LogistiCore
@@ -153,7 +153,7 @@ export function PublicNav() {
                     asChild
                     className="w-full bg-sky-500 text-white hover:bg-sky-400"
                   >
-                    <Link to="/login" onClick={() => setMobileOpen(false)}>
+                    <Link to="/register" onClick={() => setMobileOpen(false)}>
                       Get started
                     </Link>
                   </Button>
