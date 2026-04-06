@@ -25,7 +25,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
-
 interface NavItem {
   label: string
   to: string
@@ -155,11 +154,12 @@ export function AppSidebar() {
         )}
       >
         {/* Logo */}
-        <div
+        <Link
           className={cn(
             'flex h-14 shrink-0 items-center border-b border-slate-800 px-3',
             collapsed ? 'justify-center' : 'gap-2.5',
           )}
+          to="/dashboard"
         >
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/15">
             <Boxes className="h-4 w-4 text-sky-400" />
@@ -172,7 +172,7 @@ export function AppSidebar() {
               LogistiCore
             </span>
           )}
-        </div>
+        </Link>
 
         {/* Main nav */}
         <nav className="flex-1 space-y-0.5 overflow-x-hidden overflow-y-auto px-2 py-3">

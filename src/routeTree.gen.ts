@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as PublicLayoutRouteImport } from './routes/_publicLayout'
@@ -26,6 +27,11 @@ import { Route as AuthLayoutAuditLogsRouteImport } from './routes/_authLayout/au
 import { Route as AuthLayoutPurchaseRequestsIndexRouteImport } from './routes/_authLayout/purchase-requests/index'
 import { Route as AuthLayoutPurchaseRequestsIdRouteImport } from './routes/_authLayout/purchase-requests/$id'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/products': typeof AuthLayoutProductsRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/': typeof PublicLayoutIndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/dashboard': typeof AuthLayoutDashboardRoute
   '/products': typeof AuthLayoutProductsRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/_publicLayout': typeof PublicLayoutRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/_authLayout/audit-logs': typeof AuthLayoutAuditLogsRoute
   '/_authLayout/dashboard': typeof AuthLayoutDashboardRoute
   '/_authLayout/products': typeof AuthLayoutProductsRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
+    | '/register'
     | '/audit-logs'
     | '/dashboard'
     | '/products'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
+    | '/register'
     | '/audit-logs'
     | '/dashboard'
     | '/products'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/_publicLayout'
     | '/about'
     | '/login'
+    | '/register'
     | '/_authLayout/audit-logs'
     | '/_authLayout/dashboard'
     | '/_authLayout/products'
@@ -217,11 +229,19 @@ export interface RootRouteChildren {
   PublicLayoutRoute: typeof PublicLayoutRouteWithChildren
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
   ApiTunnelRoute: typeof ApiTunnelRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -384,6 +404,7 @@ const rootRouteChildren: RootRouteChildren = {
   PublicLayoutRoute: PublicLayoutRouteWithChildren,
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
   ApiTunnelRoute: ApiTunnelRoute,
 }
 export const routeTree = rootRouteImport

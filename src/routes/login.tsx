@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
-
+import { Link } from '@tanstack/react-router'
 // ─── Route Definition ─────────────────────────────────────────────────────────
 
 export const Route = createFileRoute('/login')({
@@ -68,7 +68,7 @@ function LoginPage() {
         <div className="pointer-events-none absolute top-1/3 -right-20 h-64 w-64 rounded-full bg-violet-500/8 blur-3xl" />
 
         {/* Logo */}
-        <div className="relative flex items-center gap-3">
+        <Link className="relative flex items-center gap-3" to="/">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-sky-500/30 bg-sky-500/15">
             <Boxes className="h-4 w-4 text-sky-400" />
           </div>
@@ -78,7 +78,7 @@ function LoginPage() {
           >
             LogistiCore
           </span>
-        </div>
+        </Link>
 
         {/* Middle copy */}
         <div className="relative space-y-6">
@@ -131,7 +131,7 @@ function LoginPage() {
       {/* ── Right panel — form ── */}
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         {/* Mobile logo */}
-        <div className="mb-10 flex items-center gap-2.5 lg:hidden">
+        <Link className="mb-10 flex items-center gap-2.5 lg:hidden" to="/">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/15">
             <Boxes className="h-4 w-4 text-sky-400" />
           </div>
@@ -141,7 +141,7 @@ function LoginPage() {
           >
             LogistiCore
           </span>
-        </div>
+        </Link>
 
         <div className="w-full max-w-sm space-y-8">
           {/* Heading */}
