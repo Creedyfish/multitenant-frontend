@@ -27,13 +27,56 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Inventory Management' },
+      { title: 'LogistiCore — Inventory & Supply Chain' },
+      {
+        name: 'description',
+        content:
+          'Multitenant inventory and supply chain management. Track stock, manage purchase requests, and monitor warehouses in real time.',
+      },
+
+      // Open Graph
+      { property: 'og:type', content: 'website' },
+      {
+        property: 'og:url',
+        content: 'https://multitenant-frontend-nu.vercel.app',
+      },
+      {
+        property: 'og:title',
+        content: 'LogistiCore — Inventory & Supply Chain',
+      },
+      {
+        property: 'og:description',
+        content:
+          'Multitenant inventory and supply chain management. Track stock, manage purchase requests, and monitor warehouses in real time.',
+      },
+      {
+        property: 'og:image',
+        content: 'https://multitenant-frontend-nu.vercel.app/og-image.png',
+      },
+
+      // Twitter/X
+      { name: 'twitter:card', content: 'summary_large_image' },
+      {
+        name: 'twitter:title',
+        content: 'LogistiCore — Inventory & Supply Chain',
+      },
+      {
+        name: 'twitter:description',
+        content: 'Multitenant inventory and supply chain management.',
+      },
+      {
+        name: 'twitter:image',
+        content: 'https://multitenant-frontend-nu.vercel.app/og-image.png',
+      },
     ],
-    links: [{ rel: 'stylesheet', href: appCss }],
+    links: [
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'manifest', href: '/manifest.json' },
+    ],
   }),
 
-  // shellComponent renders the full HTML document (SSR-aware).
-  // This is different from `component` which only renders inside <body>.
   shellComponent: RootDocument,
 })
 
